@@ -114,9 +114,4 @@ Assignment 5: Visualizing the Mapping Data
 
 
 
-
-
-p
-
-
 To do: DONT FORGET TO DO THE FORMULA
