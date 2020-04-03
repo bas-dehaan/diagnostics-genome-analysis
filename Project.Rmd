@@ -292,6 +292,12 @@ barplot(exons_per_chromosome,
 
 # Garbage collection
 if(GarbageCollection == TRUE){
+    remove(ASCII)
+    remove(Base)
+    remove(Base_call_accuracy)
+    remove(Numerical_Score)
+    remove(Quality_CHAR)
+    remove(Quality_STRING)
     remove(names)
     remove(exons_per_chromosome)
 }
