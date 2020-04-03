@@ -28,3 +28,5 @@ vignettes/*.pdf
 .Renviron
 # MacOS files
 .DS_Store
+#Old files
+/old/
