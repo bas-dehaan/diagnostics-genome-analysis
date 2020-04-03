@@ -35,23 +35,36 @@ GarbageCollection = TRUE
 ```
 
 
-A little background on cardiomyopathy
+<h2>Introduction</h2>
 
-* Hypertrophic cardiomyopathy
-* Arrhythmogenic right ventricular cardiomyopathy (ARVC)
-* LV non-compaction
-* Ion Channelopathies
-* Dilated cardiomyopathy (DCM)
-* Restrictive cardiomyopathy (RCM)
+Cardiomyopathy is a heart disease that is, as with many other diseases, a combination of factors, such as genetic mutation(s). 
+Cardiomyopathy comes in roughly 4 forms (UMCG) :
+*	Hypertrophic cardiomyopathy: A portion of the heart thickens and becomes harder and less flexible. 
+*	Dilated cardiomyopathy: The heart becomes severely enlarged, pumping of the blood is less efficient. 
+*	Restrictive cardiomyopathy: The heart’s tissue is getting replaced by connective tissue. 
+*	Arrhythmogenic right ventricular cardiomyopathy: The heart’s muscle cells from the right ventricular are replaced by connective tissue or fat. 
 
 
-Chapter 1 - Galaxy Introduction
+The human genetics department of the UMCG investigates not only the regular data sources as a physical exam or an EKG, but also the genome of the patient. When comparing the patients genome to a gene panel with genes that are known to be involved in cardiomyopathy. 
+One of these genes is TTN, a large gene with many exons. This gene is known to encode for a large abundant protein of striated muscle. It is also known that variants in this gene can be associated with various forms of cardiomyopathy. 
+
+
+
+
+
+
+<h2>Chapter 1 - Galaxy Introduction</h2>
+
 A quick look around the Galaxy database
 
-Chapter 2 - Data Introduction
 
 
-Assignment 1 - FastQ Format
+
+
+
+<h2>Chapter 2 - Data Introduction</h2>
+
+<h3>Assignment 1 - FastQ Format</h3>
 The patient data (patient 2) came from Next Generation Sequencing. Most often this data is represented in a FastQ file. In this file ASCII codes are given. These codes can be used to determine the quality of the given data. 
 Every sequenced base is assigned a code that matches one specific value. Each of these values lead to a differet accuracy level. 
 To understand this process the first 10 bases from a data set are analysed using the ASCII codes in assignment 1. 
@@ -60,19 +73,32 @@ The ASCII codes are used to be able to determine whether or not the data is reli
 The results of the analysis can be seen in the table below.
 
 
-| Base | N | T | C | A | T | G | T | A | C | G |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Quality char| # | > | > | 1 | A | 1 | B | 3 | B | 1 |
-| Numerical score (ASCII value - 33) (Q) | 2 | 29 | 29 | 16 | 32 | 16 | 32 | 16 | 33 | 18 | 33 | 16 | 
-|Base call accuracy (1-P) (P = 10^(-Q/10)) | 36.9 | 99.87 | 99.87 | 97.49 | 99.94 | 97.49 | 99.95 | 98.42 | 99.95 | 97.49 |
-|Acceptable accuracy | No | No | No | No | Yes | No | Yes | No | Yes | No | Yes | No | 
+```{r FASTQ ASCII Quality calculator}
+Base = c("N","T","C","A","T","G","T","A","C","G") #Bases as given
+Quality_CHAR = c("#",">",">","1","A","1","B","3","B","1") #Qualitiy CHAR as given
+Quality_STRING = paste0("#",">",">","1","A","1","B","3","B","1") #The Qualitiy CHAR stored differend
+ASCII = utf8ToInt(Quality_STRING) #Converting the Quality string to ASCII-values
+Numerical_Score = ASCII-33 #Subtracting 33 from the ASCII-values as per standard for Illumina
+Base_call_accuracy = round(1-(10**((-Numerical_Score)/10)), digits = 4) #Calculating Phred quality score and rounding it to 4 digits
+
+#PS. Yeah I know I just made the assignmet harder for myself...
+```
+
+|               Base | `r Base[1]`               | `r Base[2]`               | `r Base[3]`               | `r Base[4]`               | `r Base[5]`               | `r Base[6]`               | `r Base[7]`               | `r Base[8]`               | `r Base[9]`               | `r Base[10]`               |
+|-------------------:|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|----------------------------|
+|       Quality Char | `r Quality_CHAR[1]`       | `r Quality_CHAR[2]`       | `r Quality_CHAR[3]`       | `r Quality_CHAR[4]`       | `r Quality_CHAR[5]`       | `r Quality_CHAR[6]`       | `r Quality_CHAR[7]`       | `r Quality_CHAR[8]`       | `r Quality_CHAR[9]`       | `r Quality_CHAR[10]`       |
+|   Nummerical Score | `r Numerical_Score[1]`    | `r Numerical_Score[2]`    | `r Numerical_Score[3]`    | `r Numerical_Score[4]`    | `r Numerical_Score[5]`    | `r Numerical_Score[6]`    | `r Numerical_Score[7]`    | `r Numerical_Score[8]`    | `r Numerical_Score[9]`    | `r Numerical_Score[10]`    |
+| Base call accuracy | `r Base_call_accuracy[1]` | `r Base_call_accuracy[2]` | `r Base_call_accuracy[3]` | `r Base_call_accuracy[4]` | `r Base_call_accuracy[5]` | `r Base_call_accuracy[6]` | `r Base_call_accuracy[7]` | `r Base_call_accuracy[8]` | `r Base_call_accuracy[9]` | `r Base_call_accuracy[10]` |
 
 From this table one can draw some conclusions.
 Four of the 10 basesare shown to be of an acceptable accuracy, the remaining six do not follow the requirements. Due to this fact the data set should not be used for further analysis as it is, since the quality of the set is not as accurate as supposed to. 
 
 
-Chapter 3 - Quality Control
 
+
+
+
+<h2>Chapter 3 - Quality Control</h2> 
 
 The data of patient 2 was loaded from the shared Galaxy library to the own history. 
 This data can now be analysed on the quality. Once the quality is sufficient, the data can be used to go along with the project. 
@@ -85,7 +111,7 @@ Settings of the FastQC tool:
 
 The FastQC tool gives back a visualization of the analysed data. 
 
-Assignment 2 - Read Quality. 
+<h3>Assignment 2 - Read Quality.</h3>
 Using the visualization returned from the tool and the given information above the image, one can determine the quality of the data. 
 In the figures below the quality of both R1 and R2 are shown.
 
@@ -104,7 +130,7 @@ The reason these two aspects are tweaked with is the following:
 * Minimum quality: The quality needs to be altered to obtain results. Quality values below a certain range are not accurate enough, since a large part of the sequenced data will be assigned wrong base. 
 * Minimum read length: One does not want to many short reads, since they can interfere with the longer reads and cause various misinterpretations of the data. 
 
-Assignment 3 - Read Trimming
+<h3>Assignment 3 - Read Trimming</h3>
 To be able to work with the data such that the overall quality is approximately 30. 
 This can be done by trimming the data using the Trimmomatic tool from Galaxy. 
 The settings are as follows:
@@ -149,12 +175,17 @@ This is so all the positions show proper quality scores, since all are in the gr
 ![Tweaking for patient 2, R2. Minimal quality = 26, minimal read length = 70](./images/Tweaking_R2_Mini_quality_=_26,minimal_read_length=70.png)
 
 
-##Chapter 4 - Read Mapping
+
+
+
+
+
+<h2>Chapter 4 - Read Mapping</h2>
 
 An average coverage of 30 is aimed for, to give more certainty about whether or not a varying nucleaotide is a true variant or simply a sequencing error. 
 
-###Assignment 4 - Mapping quality
 
+<h3>Assignment 4 - Mapping quality</h3>
 To determine the quality of the data the coverage has to be determined. This can be done using the Lander/Waterman equation below. 
 
 $C=\frac{LN}{G}$
@@ -173,8 +204,7 @@ $G=\frac{LN}{C}=\frac{300*25,000,000}{20}=3.75*e^{6}$
 With this captured data the coverage over the data can be analysed. The coverage is added to the table above. 
 
 
-###Assignment 5 - Visualizing the Mapping Data
-
+<h3>Assignment 5 - Visualizing the Mapping Data</h3>
 The data will be mapped using the BWA-MEM tool from Galaxy.
 The settings for the BWA-MEM tool are:
 
@@ -214,7 +244,11 @@ Unfortunately no images are available for this part of the experiment, as IGV ca
 
 
 
-##Chapter 5 - PileUP
+
+
+
+<h2>Chapter 5 - PileUP</h2>
+
 From this point on the assignment numbers start over from number 1 again. 
 
 
@@ -231,8 +265,7 @@ The settings of MPileUp are:
 
 This large file shows the difference with respect to the reference genome. This file is too large to manually analyse all lines. Therefore the experiment will continue using R. 
 
-###Assignment 1 - Loading the BED-data
-
+<h3>Assignment 1 - Loading the BED-data</h3>
 This step returns the exon locations for the paneled genes. 
 
 ```{r Assignment 5.1; Loading the BED-data}
@@ -265,8 +298,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-###Assignment 2 - BED-visualization
-
+<h3>Assignment 2 - BED-visualization</h3>
 The goal of this assignment was to visualize the number of genes per chromosome. 
 
 ```{r Assignment 5.2; BED-visualization}
@@ -296,8 +328,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-###Assignment 3 - Bioconductor
-
+<h3>Assignment 3 - Bioconductor</h3>
 The data is analyzed using, among others, the GenomicRanges objects from the Bioconductor package. 
 In the chunk below the Bioconductor package is installed. 
 
@@ -350,8 +381,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-###Assignment 4 - Gene Lengths
-
+<h3>Assignment 4 - Gene Lengths</h3>
 This assignment is to show the length of all the various genes
 
 ```{r Assignment 5.4; Gene Lengths}
@@ -375,7 +405,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-### Assignment 5 - PileUp loading
+<h3>Assignment 5 - PileUp loading</h3>
 
 ```{r Assignment 5.5; Pileup Loading}
 # Load the pileup data, generated in Galaxy
@@ -402,8 +432,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-###Assignment 6 - PileUp Processing
-
+<h3>Assignment 6 - PileUp Processing</h3>
 While assignment 5 focused on just one single gene, this assignment all data will be gathered into one object. 
 This will be done similarly to assignment 5.
 
@@ -440,7 +469,7 @@ One single list now contains all the needed values.
 
 
 
-###Assignment 7 - Coverage calculation and reporting
+<h3>Assignment 7 - Coverage calculation and reporting</h3>
 
 ```{r Assignment 5.7; Coverage calculation and reporting}
 # Create empty data-frame, but specify columns and data types
@@ -509,7 +538,7 @@ if(GarbageCollection == TRUE){
 ```
 
 
-## Chapter 6 - Varscan
+<h2>Chapter 6 - Varscan</h2>
 
 To find actual variants from the PileUp file the Varscan2 tool from Galaxy is used. 
 The settings are all left at the default settings. 
@@ -517,8 +546,7 @@ The settings are all left at the default settings.
 The varscan yields a .vcf file worth analysing. 
 The first 23 lines are headers, without any actual data on the patient. 
 
-###Assignment 8 - VCF File Processing
-
+<h3>Assignment 8 - VCF File Processing</h3>
 The aim of this experiment was to test where the VarScan overlapped with the earlier made Genomic ranges and filter out all the variants where the frequency was less than 30%. This was stored into a new VCF file
 
 
@@ -649,7 +677,7 @@ if(GarbageCollection == TRUE){
 ```
 
 
-##Chapter 7 - Annovar
+<h2>Chapter 7 - Annovar</h2>
 
 The filtered data is what will be used from this point on. Using the Annovar tool from Galaxy, many details about the variants are added to the dataset. 
 The settings of the Annovar tool are:
@@ -713,8 +741,7 @@ In the table below the columnnames, database and output are explained for each n
 | CLINVAR                  | ClinVar                                 | Variant Clinical Significance                                                      |
 
 
-# Assignment 10 - Data Preparation
-
+<h3>Assignment 10 - Data Preparation</h3>
 The columns addded through the Annovar tool were not all immediately suitable to work with. Therefore two columns were converted, so sorting could be possible. 
 
 ```{r Assignment 7.10; Data Preparation}
@@ -757,24 +784,22 @@ if(GarbageCollection == TRUE){
 
 ```
 
-### Assingment 11
-
-After filtering `r nrow(Annovar_vcf)` SNP's remained which where sorted, after which the 12 SNP's with the highest score were selected. These 12 SNP are shown below.
-
+<h3>Assingment 11</h3>
+During this assignment the data will be filtered and sorted based on the Annovar scores. Each annovar score tells how relevant or damaging a SNP could be.
 ```{r Assignment 7.11; Finding Variants of Interest}
 # Remove the rows where SIFT only contains NA
 NA_Filtered = Annovar_vcf[complete.cases(Annovar_vcf$LJB2_SIFT),]
 
-# Keep all rows that are potentionally damaging
+#Selecting all SIFT scores <= 0.05, these values are deleterious
 NA_Filtered = NA_Filtered[NA_Filtered$LJB2_SIFT <= 0.05,]
 
 # Sort the genes based on there scoring,
-Sorted = NA_Filtered[with(NA_Filtered, order(LJB2_SIFT,
-                                             X1000g2015aug_EUR,
-                                             -LJB2_PolyPhen2_HVAR_1,
-                                             -LJB2_PolyPhen2_HDIV_1,
-                                             LJB2_FATHMM, 
-                                             LJB2_GERP..
+Sorted = NA_Filtered[with(NA_Filtered, order(LJB2_SIFT, #Sort the SIFT score low to high
+       X1000g2015aug_EUR, #Sort how often the SNP occur in the European population, sorted low to high
+       -LJB2_PolyPhen2_HVAR_1, #Degree of dammage in Mendelian diseases
+       -LJB2_PolyPhen2_HDIV_1, #Degree of damage for rare alleles in complex phenotypes
+       LJB2_FATHMM, #A score smaller than -1.5 is known as D(amaging), otherwise T(olerated)
+       LJB2_GERP.. #The higher the score, the more conserved the site
 )), ]
 
 
@@ -801,7 +826,6 @@ kable(varients_data)
 
 # Garbage collection
 if(GarbageCollection == TRUE){
-    remove(NA_Filtered)
     remove(column_selection)
     remove(varients_data)
     remove(Annovar_vcf)
@@ -809,7 +833,27 @@ if(GarbageCollection == TRUE){
 
 ```
 
-## Extra visualisation
+After filtering `r nrow(NA_Filtered)` SNP's remained which where sorted, after which the 12 SNP's with the highest score were selected. These 12 SNP are shown above.
+
+These SNP's were lookedup in the NCBI dsSNP, giving the following results about there harmfulness:
+
+| RS-Number | Gene | Effect | Dilated cardiomyopathy | Hypertrophic cardiomyopathy | Restrictive cardiomyopathy | Arrhythmogenic right ventricular dysplasia | Left ventricular noncompaction cardiomyopathy | Unclassified cardiomyopathy | Myopathy, early onset, with fatal cardiomyopathy | Other (non-cardiomyopathy) |
+|------------|--------|------------------|------------------------|----------------------------------|----------------------------|--------------------------------------------|-----------------------------------------------|-----------------------------|--------------------------------------------------|----------------------------|
+| rs17355446 | TTN | Missense, Intron | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs2627037 | TTN | Missense, Intron | - | - | - | - | - | - | - | TRUE |
+| rs62621236 | TTN | Missense, Intron | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs747122 | TTN | Missense | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs3729986 | MYBPC3 | Missense | Likely-Benign | Benign-Likely-Benign (+Familial) | - | - | Likely-Benign | - | - | FALSE |
+| rs4893853 | TTN | Missense | Likely-Benign | Likely Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs4894048 | TTN | Missense | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs11888217 | TTN | Missense, Intron | Likely-Benign | Likely-Benign | - | - |  | - | Likely-Benign | FALSE |
+| rs4893852 | TTN | Missense, Intron | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs13398235 | TTN | Missense | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs10164753 | TTN | Missense, Intron | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+| rs4894028 | TTN | Missense | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
+
+
+<h2>Extra visualisation</h2>
 
 To see how the selected SNP's are distributes, 2 plots have been made to show there location per chomosome and per gene.
 
@@ -830,6 +874,7 @@ barplot(gene_count,
 
 # Garbage collection
 if(GarbageCollection == TRUE){
+    remove(NA_Filtered)
     remove(chromosome_count)
     remove(gene_count)
     remove(Sorted)
@@ -837,4 +882,4 @@ if(GarbageCollection == TRUE){
 }
 
 ```
-
+In both figures can be seen that most of the SNP's are on the TTN gene, which is on chromosome 2. This is largely explained by the fact that TTN was by far the longest gene in te first place (as can be seen in Assignment 4).
