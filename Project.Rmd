@@ -2,10 +2,10 @@
 title: "The SNP’s behind cardiomyopathy"
 author: "G.J. Teitsma & B.M. de Haan"
 date: "3/4/2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
 ---
-
-
 
 ```{r Configurations and Librarys, echo=FALSE, message=FALSE, warning=FALSE}
 # For the entire markdown document, Show only the code output, not the code itself.
@@ -853,6 +853,9 @@ These SNP's were lookedup in the NCBI dsSNP, giving the following results about 
 | rs4894028 | TTN | Missense | Likely-Benign | Likely-Benign | - | - | - | - | Likely-Benign | FALSE |
 
 
+
+
+
 <h2>Extra visualisation</h2>
 
 To see how the selected SNP's are distributes, 2 plots have been made to show there location per chomosome and per gene.
@@ -882,4 +885,12 @@ if(GarbageCollection == TRUE){
 }
 
 ```
+
 In both figures can be seen that most of the SNP's are on the TTN gene, which is on chromosome 2. This is largely explained by the fact that TTN was by far the longest gene in te first place (as can be seen in Assignment 4).
+
+
+
+
+<h2>Conclusion and discussion</h2>
+
+Based on the fact that most of the annovar scores for the selected genes showed that the SNP's found on both TTN aswell as MYBPC3 were really damaging, it is likely that the patient has some kind of dammage to his or her heart. Also based on the fact that the NCBI dbSNP showed only (likely) benign values at Dilated and Hypertropic cardiomyopathy for the SNP's, it is likely that, if the patient suffers from cardiomyopathy, he or she will likely suffer from one of these subtypes. However all dbSNP values show that the damage is (likely) benign, which is also backed up by recent studies [1,2,3], and none of the values show a pathogen score. This means that, based on this data, the diagnosis Cardiomyopathy cannot be made with high certainty. To make a final dignosis the data could be reanalised using other methods, (using other scrips or tools) and/or a heart-echo should be preformed on the patient. To test if the filters of the current program are made correctly, other data should be tested against this exact same script.
