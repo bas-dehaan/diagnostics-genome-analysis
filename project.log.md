@@ -110,6 +110,7 @@ By creating the read duplicates can arise, which do not origin from the sample, 
 
 
 
+
 Date: 04-03-2020
 Assignment 5: Visualizing the Mapping Data
 
@@ -125,6 +126,7 @@ Why are some reads outside of the location?
 Chapter 5
 
 ```{r}
+
 
 
 To do: DONT FORGET TO DO THE FORMULA
