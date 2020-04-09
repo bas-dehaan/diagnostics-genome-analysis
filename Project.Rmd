@@ -392,13 +392,13 @@ This assignment is to show the length of all the various genes
 
 ```{r Assignment 5.4; Gene Lengths}
 # Calculate the total lenght of every gene
-genelenght = sum(width(gRanges_list))
+genelength = sum(width(gRanges_list))
 
 # Show the total lenght of every gene in a barplot with gap
-gap.barplot(genelenght,
+gap.barplot(genelength,
             gap = c(20000,100000), #Create a gap/cutout on the y-axis between 20.000 and 100.000
             xlab="", #Purposefully remove the x-axis label to make the values readable
-            ylab="Gene lenght (bp)",
+            ylab="Gene slength (bp)",
             xaxlab = gene_names, #Define the values of the x-axis
             las=2, #Rotate x-axis value's 90°
             main="Sequenced gene lenght"
@@ -406,7 +406,7 @@ gap.barplot(genelenght,
 
 # Garbage collection
 if(GarbageCollection == TRUE){
-    remove(genelenght)
+    remove(genelength)
 }
 
 ```
@@ -842,7 +842,7 @@ if(GarbageCollection == TRUE){
 
 ```
 
-After filtering `r nrow(NA_Filtered)` SNP's remained which where sorted, after which the 12 SNP's with the highest score were selected. These 12 SNP are shown above.
+After filtering, `r nrow(NA_Filtered)` SNP's remained which where sorted, after which the 12 SNP's with the highest score were selected. These 12 SNP's are shown above.
 
 These SNP's were looked up in the NCBI dsSNP, giving the following results about there harmfulness:
 
