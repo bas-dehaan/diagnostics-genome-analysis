@@ -76,7 +76,7 @@ The results of the analysis can be seen in the table below.
 ```{r FASTQ ASCII Quality calculator}
 Base = c("N","T","C","A","T","G","T","A","C","G") #Bases as given
 Quality_CHAR = c("#",">",">","1","A","1","B","3","B","1") #Qualitiy CHAR as given
-Quality_STRING = paste0("#",">",">","1","A","1","B","3","B","1") #The Qualitiy CHAR stored differend
+Quality_STRING = paste0("#",">",">","1","A","1","B","3","B","1") #The Qualitiy CHAR stored differently
 ASCII = utf8ToInt(Quality_STRING) #Converting the Quality string to ASCII-values
 Numerical_Score = ASCII-33 #Subtracting 33 from the ASCII-values as per standard for Illumina
 Base_call_accuracy = round(1-(10**((-Numerical_Score)/10)), digits = 4) #Calculating Phred quality score and rounding it to 4 digits
@@ -91,7 +91,7 @@ Base_call_accuracy = round(1-(10**((-Numerical_Score)/10)), digits = 4) #Calcula
 | Base call accuracy | `r Base_call_accuracy[1]` | `r Base_call_accuracy[2]` | `r Base_call_accuracy[3]` | `r Base_call_accuracy[4]` | `r Base_call_accuracy[5]` | `r Base_call_accuracy[6]` | `r Base_call_accuracy[7]` | `r Base_call_accuracy[8]` | `r Base_call_accuracy[9]` | `r Base_call_accuracy[10]` |
 
 From this table one can draw some conclusions.
-Four of the 10 basesare shown to be of an acceptable accuracy, the remaining six do not follow the requirements. Due to this fact the data set should not be used for further analysis as it is, since the quality of the set is not as accurate as supposed to. 
+Four of the 10 base paires shown to be of an acceptable accuracy, the remaining six do not follow the requirements. Due to this fact the data set should not be used for further analysis as it is, since the quality of the set is not as accurate as supposed to. 
 
 
 
@@ -131,7 +131,7 @@ The reason these two aspects are tweaked with is the following:
 * Minimum read length: One does not want to many short reads, since they can interfere with the longer reads and cause various misinterpretations of the data. 
 
 <h3>Assignment 3 - Read Trimming</h3>
-To be able to work with the data such that the overall quality is approximately 30. 
+To be able to work with the data, meaning that the overall quality is approximately 30, the set has to be tweaked.
 This can be done by trimming the data using the Trimmomatic tool from Galaxy. 
 The settings are as follows:
 
@@ -154,7 +154,7 @@ In the table below various attempts to obtain the most suitable results are show
 |1 | 1,298,979 | N/A | N/A | N/A | 1218 | Initial data set |
 |2 | 910,105 | 20 | 70 | 388,874 | 853 | First trimming step. First bp shows very low quality (18) | 
 |3 | 644,445 | 26 | 70 | 654,534 | 604 | All positions above 30 quality score  | 
-|4 | 899692 | 20 | 75 | 399287 | 843 | No variation from the second attempt  | 
+|4 | 899692 | 20 | 75 | 399287 | 843 | No variation compared to the second attempt  | 
 |5 | 852698 | 20 | 100  | 446281 | 799 | Hardly any variation of the fastQC plot in comparison to the second attempt  | 
 |6 | 1072839 | 20 | 20 |  226140 | 1006  | The overall mean quality is lower than the mean value at attempt 2 | 
 |7 | 448598 | 30  | 70 |  | 421 |  All qualities at least 32 | 
@@ -311,7 +311,7 @@ The goal of this assignment was to visualize the number of genes per chromosome.
 # Select row Chomosome and Gene name from the bedfile.
 genes_and_chromosomes = bedfile[c("Chromosome","Gene_name")]
 
-# Count the nummer of occurence of each duplicate of each gene.
+# Count the number of occurence of each duplicate of each gene.
 gen_name_per_chromosome = unique(genes_and_chromosomes)
 
 # Make a crosstable of the Chomosome, thereby counting the number of genes per chromosome
@@ -412,6 +412,7 @@ if(GarbageCollection == TRUE){
 ```
 
 <h3>Assignment 5 - PileUp loading</h3>
+Load the pileup file which was generated in Galaxy
 
 ```{r Assignment 5.5; Pileup Loading}
 # Load the pileup data, generated in Galaxy
@@ -439,7 +440,7 @@ if(GarbageCollection == TRUE){
 ```
 
 <h3>Assignment 6 - PileUp Processing</h3>
-While assignment 5 focused on just one single gene, this assignment all data will be gathered into one object. 
+While assignment 5 focused on just one single gene, in this assignment all data will be gathered into one object. 
 This will be done similarly to assignment 5.
 
 ```{r Assignment 5.6; Pileup Processing}
@@ -477,6 +478,8 @@ One single list now contains all the needed values.
 
 <h3>Assignment 7 - Coverage calculation and reporting</h3>
 
+We now calculate how many positions each gene has and how many of those positions have fewer than 30 reads. This is done as a quality control. 
+
 ```{r Assignment 5.7; Coverage calculation and reporting}
 # Create empty data-frame, but specify columns and data types
 df_genes = data.frame(genename=character(),
@@ -484,7 +487,7 @@ df_genes = data.frame(genename=character(),
                       averagecoverage=numeric(),
                       lowcoveragecount=numeric(),
                       lowcoveragepercentage=numeric()
-                      )
+)
 
 # Make a for-loop based on all gene-names
 for(gene in gene_names){
@@ -567,7 +570,7 @@ varscan = read.delim("./data/Galaxy67-[VarScan_on_data_66].vcf",
 # Split the data row
 splitted_data = strsplit(varscan$Sample1, ":")
 
-# Show the splitted data (for debugging puposes only)
+# Show the splitted data (for debugging purposes only)
 #do.call(rbind, splitted_data)
 
 # Select the 7th row, remove the %, convert to numeric and store.
@@ -663,7 +666,7 @@ gap.barplot(df_merged$Frequency,
             ylab = "SNP's",
             main="SNP's per gene"
             #adding cex.names results NOT in smaller x-axis values,
-            #however it did result in loads of errors, so we dicided not to add it.
+            #however it did result in loads of errors, so we decided not to add it.
 )
 
 
@@ -758,7 +761,7 @@ Annovar_vcf = read.table("./data/Galaxy72-_ANNOVAR_Annotated_variants_on_data_68
                          dec = "." #use . as decimal character
 )
 
-# Determining the structure of the rows (for debugging puposes only)
+# Determining the structure of the rows (for debugging purposes only)
 #str(Annovar_vcf)
 
 # Split Annovar_vcf$LJB2_PolyPhen2_HDIV using RegEx
@@ -802,14 +805,14 @@ NA_Filtered = NA_Filtered[NA_Filtered$LJB2_SIFT <= 0.05,]
 # Sort the genes based on there scoring,
 Sorted = NA_Filtered[with(NA_Filtered, order(LJB2_SIFT, #Sort the SIFT score low to high
        X1000g2015aug_EUR, #Sort how often the SNP occur in the European population, sorted low to high
-       -LJB2_PolyPhen2_HVAR_1, #Degree of dammage in Mendelian diseases
+       -LJB2_PolyPhen2_HVAR_1, #Degree of damage in Mendelian diseases
        -LJB2_PolyPhen2_HDIV_1, #Degree of damage for rare alleles in complex phenotypes
        LJB2_FATHMM, #A score smaller than -1.5 is known as D(amaging), otherwise T(olerated)
        LJB2_GERP.. #The higher the score, the more conserved the site
 )), ]
 
 
-# Select columns based on intrest
+# Select columns based on interest
 column_selection = colnames(Sorted) %in% c("chromosome",
                                            "POS",
                                            "REF",
@@ -841,7 +844,7 @@ if(GarbageCollection == TRUE){
 
 After filtering `r nrow(NA_Filtered)` SNP's remained which where sorted, after which the 12 SNP's with the highest score were selected. These 12 SNP are shown above.
 
-These SNP's were lookedup in the NCBI dsSNP, giving the following results about there harmfulness:
+These SNP's were looked up in the NCBI dsSNP, giving the following results about there harmfulness:
 
 | RS-Number | Gene | Effect | Dilated cardiomyopathy | Hypertrophic cardiomyopathy | Restrictive cardiomyopathy | Arrhythmogenic right ventricular dysplasia | Left ventricular noncompaction cardiomyopathy | Unclassified cardiomyopathy | Myopathy, early onset, with fatal cardiomyopathy | Other (non-cardiomyopathy) |
 |------------|--------|------------------|------------------------|----------------------------------|----------------------------|--------------------------------------------|-----------------------------------------------|-----------------------------|--------------------------------------------------|----------------------------|
@@ -864,7 +867,7 @@ These SNP's were lookedup in the NCBI dsSNP, giving the following results about 
 
 <h2>Extra visualisation</h2>
 
-To see how the selected SNP's are distributes, 2 plots have been made to show there location per chomosome and per gene.
+To see how the selected SNP's are distributes, 2 plots have been made to show their location per chomosome and per gene.
 
 ```{r Extra: Some data visualisation}
 # Show the number of filtered SNP's per chromosome
@@ -899,4 +902,4 @@ In both figures can be seen that most of the SNP's are on the TTN gene, which is
 
 <h2>Conclusion and discussion</h2>
 
-Based on the fact that most of the annovar scores for the selected genes showed that the SNP's found on both TTN aswell as MYBPC3 were really damaging, it is likely that the patient has some kind of dammage to his or her heart. Also based on the fact that the NCBI dbSNP showed only (likely) benign values at Dilated and Hypertropic cardiomyopathy for the SNP's, it is likely that, if the patient suffers from cardiomyopathy, he or she will likely suffer from one of these subtypes. However all dbSNP values show that the damage is (likely) benign, which is also backed up by recent studies [1,2,3], and none of the values show a pathogen score. This means that, based on this data, the diagnosis Cardiomyopathy cannot be made with high certainty. To make a final dignosis the data could be reanalised using other methods, (using other scrips or tools) and/or a heart-echo should be preformed on the patient. To test if the filters of the current program are made correctly, other data should be tested against this exact same script.
+Based on the fact that most of the annovar scores for the selected genes showed that the SNP's found on both TTN as well as MYBPC3 were really damaging, it is likely that the patient has some kind of dammage to his or her heart. Also based on the fact that the NCBI dbSNP showed only (likely) benign values at Dilated and Hypertropic cardiomyopathy for the SNP's, it is likely that, if the patient suffers from cardiomyopathy, he or she will likely suffer from one of these subtypes. However all dbSNP values show that the damage is (likely) benign, which is also backed up by recent studies [1,2,3], and none of the values show a pathogen score. This means that, based on this data, the diagnosis Cardiomyopathy cannot be made with high certainty. To make a final dignosis the data could be reanalised using other methods, (using other scrips or tools) and/or a heart-echo should be performed on the patient. To test if the filters of the current program are made correctly, other data should be tested against this exact same script.
